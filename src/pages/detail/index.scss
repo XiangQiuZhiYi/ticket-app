@@ -16,6 +16,22 @@
   justify-content: center;
   width: 100%;
   padding: 0 40rpx;
+  position: relative;
+}
+
+// Canvas预览组件，调试时暂时可见
+.canvas-preview {
+  // 调试：暂时让Canvas可见
+  // position: absolute;
+  // left: -9999rpx;
+  // top: 0;
+  // opacity: 0;
+  // pointer-events: none;
+  // z-index: -1;
+  
+  // 临时可见用于调试
+  display: block;
+  width: 100%;
 }
 
 .loading-container {

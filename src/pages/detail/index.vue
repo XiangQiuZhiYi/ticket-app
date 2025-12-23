@@ -5,7 +5,21 @@
 
     <!-- 火车票预览 -->
     <view class="ticket-wrapper">
-      <TicketPreview v-if="ticketData && !loading" :ticket-data="ticketData" />
+      <!-- 普通预览 -->
+      <TicketPreview 
+        v-if="ticketData && !loading && !isDownloading" 
+        :ticket-data="ticketData" 
+      />
+      
+      <!-- Canvas版本（用于下载） -->
+      <TicketPreview 
+        v-if="ticketData && isDownloading"
+        ref="canvasPreviewRef"
+        :ticket-data="ticketData"
+        :use-canvas="true"
+        canvas-id="downloadTicketCanvas"
+        class="canvas-preview"
+      />
       
       <!-- 加载中 -->
       <view v-if="loading" class="loading-container">
@@ -34,15 +48,21 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, getCurrentInstance } from 'vue'
 import TicketPreview from '../../components/TicketPreview/index.vue'
 import { getTicketById, deleteTicket } from '@/api/tickets'
 import CustomNavBar from "@/components/CustomNavBar/index.vue";
+import { saveTicketToAlbum } from '@/utils/canvasTicket';
+
+// 获取当前组件实例
+const instance = getCurrentInstance();
 
 // 从路由参数获取票根ID
 const ticketData = ref(null)
 const ticketId = ref('')
 const loading = ref(true)
+const isDownloading = ref(false)
+const canvasPreviewRef = ref(null)
 
 // 加载票根数据
 const loadTicketData = async () => {
@@ -123,12 +143,60 @@ onMounted(() => {
 })
 
 // 处理下载图片
-const handleDownload = () => {
-  uni.showToast({
-    title: '下载功能开发中',
-    icon: 'none'
-  })
-}
+const handleDownload = async () => {
+  if (!ticketData.value) {
+    uni.showToast({
+      title: '票根数据不存在',
+      icon: 'none'
+    });
+    return;
+  }
+  
+  try {
+    console.log('========== 开始下载流程 ==========');
+    console.log('票根数据:', ticketData.value);
+    
+    uni.showLoading({
+      title: '正在生成图片...',
+      mask: true
+    });
+    
+    // 切换到canvas模式
+    console.log('Step 1: 切换到Canvas模式');
+    isDownloading.value = true;
+    
+    // 等待DOM更新和Canvas渲染（增加等待时间）
+    console.log('Step 2: 等待Canvas渲染...');
+    await new Promise(resolve => setTimeout(resolve, 1200));
+    
+    console.log('Step 3: 开始调用保存方法');
+    
+    // 保存到相册，传递TicketPreview组件实例的上下文
+    await saveTicketToAlbum('downloadTicketCanvas', ticketData.value, canvasPreviewRef.value);
+    
+    console.log('Step 4: 保存完成');
+    
+    uni.hideLoading();
+    
+    // 切换回普通模式
+    isDownloading.value = false;
+    
+    console.log('========== 下载流程完成 ==========');
+    
+  } catch (error) {
+    console.error('========== 下载失败 ==========');
+    console.error('错误详情:', error);
+    
+    uni.hideLoading();
+    isDownloading.value = false;
+    
+    uni.showModal({
+      title: '下载失败',
+      content: error.message || '未知错误',
+      showCancel: false
+    });
+  }
+};
 
 // 处理编辑
 const handleEdit = () => {

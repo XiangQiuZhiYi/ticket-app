@@ -1,6 +1,20 @@
 <template>
   <view class="container">
-    <view class="ticket-card">
+    <!-- Canvas版本（用于导出图片） -->
+    <canvas 
+      v-if="useCanvas"
+      :canvas-id="canvasId" 
+      :id="canvasId"
+      type="2d"
+      :class="'ticket-canvas ' + canvasId"
+      :style="{
+        width: canvasWidth + 'rpx',
+        height: canvasHeight + 'rpx'
+      }"
+    ></canvas>
+    
+    <!-- 普通视图版本（用于预览） -->
+    <view v-else class="ticket-card">
       <!-- 车票头部信息 -->
       <view class="ticket-header">
         <view class="ticket-number">{{ trainNumber }}</view>
@@ -93,15 +107,31 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, ref, watch, nextTick, onMounted, getCurrentInstance } from "vue";
 import sampleTicket from "@/utils/sampleTicket";
+import { drawTicketToCanvas } from "@/utils/canvasTicket";
+
+// 获取组件实例
+const instance = getCurrentInstance();
 
 const props = defineProps({
   ticketData: {
     type: Object,
     default: () => ({}),
   },
+  useCanvas: {
+    type: Boolean,
+    default: false,
+  },
+  canvasId: {
+    type: String,
+    default: 'ticketCanvas'
+  }
 });
+
+// Canvas尺寸
+const canvasWidth = ref(750);
+const canvasHeight = ref(400);
 
 // 默认数据
 const DEFAULT_DATA = {
@@ -188,8 +218,89 @@ const maskedId = computed(() => {
 const codeNumber = computed(() => ticketData.value.codeNumber || ""); 
 const saleStation = computed(() => ticketData.value.saleStation || "");
 const qrcodeImage = computed(() => ticketData.value.wxacodeUrl || null);
-</script>
+// Canvas绘制
+const drawCanvas = () => {
+  if (!props.useCanvas) return;
+  
+  console.log('开始绘制Canvas, canvasId:', props.canvasId);
+  
+  nextTick(() => {
+    // 使用组件实例上下文创建查询
+    const query = uni.createSelectorQuery().in(instance);
+    
+    // 使用class选择器而不是id（因为小程序会给id加前缀）
+    query.select(`.${props.canvasId}`)
+      .fields({ node: true, size: true })
+      .exec((res) => {
+        console.log('Canvas查询结果 (使用class):', res);
+        
+        if (!res || !res[0] || !res[0].node) {
+          console.error('Canvas元素未找到, class:', props.canvasId);
+          return;
+        }
+        
+        const canvas = res[0].node;
+        const ctx = canvas.getContext('2d');
+        
+        console.log('Canvas元素找到，开始绘制');
+        
+        // 设置canvas尺寸
+        const dpr = uni.getSystemInfoSync().pixelRatio || 1;
+        canvas.width = canvasWidth.value * dpr;
+        canvas.height = canvasHeight.value * dpr;
+        ctx.scale(dpr, dpr);
+        
+        // 绘制票根
+        drawTicketToCanvas(ctx, ticketData.value, canvasWidth.value, canvasHeight.value);
+        
+        console.log('Canvas绘制完成');
+      });
+  });
+};
+
+// 监听数据变化重新绘制
+watch(() => ticketData.value, () => {
+  if (props.useCanvas) {
+    drawCanvas();
+  }
+}, { deep: true });
+
+// 监听useCanvas变化
+watch(() => props.useCanvas, (newVal) => {
+  console.log('useCanvas变化:', newVal);
+  if (newVal) {
+    console.log('useCanvas为true，将在200ms后绘制');
+    setTimeout(() => {
+      drawCanvas();
+    }, 200);
+  }
+});
+
+// 组件挂载时绘制
+onMounted(() => {
+  if (props.useCanvas) {
+    console.log('组件挂载，准备绘制Canvas');
+    setTimeout(() => {
+      drawCanvas();
+    }, 200);
+  }
+});
+
+// 暴露绘制方法供父组件调用
+defineExpose({
+  drawCanvas
+});</script>
 
 <style lang="scss" scoped>
 @import "./index.scss";
+
+.ticket-canvas {
+  display: block;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  background: #fff;
+  // 确保canvas有实际尺寸
+  min-width: 750rpx;
+  min-height: 400rpx;
+}
 </style>
