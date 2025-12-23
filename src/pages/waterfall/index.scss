@@ -1,0 +1,108 @@
+.waterfall-container {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  padding: 20rpx;
+  position: relative;
+}
+
+.waterfall-header {
+  padding: 30rpx 0;
+  text-align: center;
+  background: white;
+  border-radius: 16rpx;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30rpx;
+}
+
+.header-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.waterfall-content {
+  margin-bottom: 120rpx;
+}
+
+.waterfall-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.waterfall-item {
+  width: 48%;
+  background: white;
+  border-radius: 16rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  
+  &.left {
+    margin-right: 0;
+  }
+  
+  &.right {
+    margin-left: 0;
+  }
+}
+
+.image-placeholder {
+  height: 200rpx;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.placeholder-text {
+  color: white;
+  font-size: 28rpx;
+}
+
+.item-content {
+  padding: 20rpx;
+}
+
+.item-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+  display: block;
+  margin-bottom: 10rpx;
+}
+
+.item-description {
+  font-size: 24rpx;
+  color: #666;
+  display: block;
+  line-height: 1.4;
+}
+
+.floating-button {
+  position: fixed;
+  bottom: 50rpx;
+  right: 50rpx;
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-size: 60rpx;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+  border: none;
+  outline: none;
+  
+  &:active {
+    opacity: 0.8;
+  }
+}
+
+.add-icon {
+  font-size: 60rpx;
+  font-weight: bold;
+}

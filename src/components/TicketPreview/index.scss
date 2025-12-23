@@ -1,0 +1,211 @@
+.container {
+  width: 340px;
+  height: 220px;
+  background: linear-gradient(180deg, #dbf2f6 0%, #d4f0fd 100%);
+  border-radius: 8px;
+  margin: auto;
+  padding: 11px 10px;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+
+  .big {
+    font-weight: 700;
+    font-size: 14px;
+    color: #232c37;
+    line-height: 18px;
+  }
+  .thin {
+    font-weight: 400;
+    font-size: 10px;
+    color: #232c37;
+    margin: 0 2px;
+  }
+}
+
+.ticket-header {
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: bold;
+  font-size: 14px;
+  color: #232c37;
+  line-height: 18px;
+}
+
+.ticket-number {
+  font-family: PingFangSC, PingFang SC;
+  font-weight: bold;
+  font-size: 16px;
+  color: #f4518d;
+  line-height: 20px;
+}
+
+.journey-info {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  margin-top: -4px;
+  margin-bottom: 2px;
+}
+
+.station {
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: fit-content;
+  margin-right: 20px;
+  margin-left: 8px;
+}
+
+.station-name {
+  font-family: PingFangSC, PingFang SC;
+  font-weight: bold;
+  font-size: 20px;
+  color: #232c37;
+  line-height: 24px;
+}
+
+.station-pinyin {
+  font-family: PingFangSC, PingFang SC;
+  font-weight: bold;
+  font-size: 12px;
+  color: #232c37;
+  line-height: 12px;
+}
+
+.train-info {
+  width: 56px;
+  margin-right: 20px;
+  text-align: center;
+}
+
+.time-seat-info {
+  display: flex;
+  align-items: center;
+  height: 20px;
+  .departure-time {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+
+    font-size: 14px;
+    color: #232c37;
+    margin-right: 70px;
+  }
+  .seat-info {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+
+    font-size: 14px;
+    color: #232c37;
+    .thin {
+      font-weight: 400;
+      font-size: 10px;
+      color: #232c37;
+      margin: 0 2px;
+    }
+  }
+}
+
+.price-info {
+  display: flex;
+  align-items: center;
+  height: 18px;
+
+  .price {
+    margin-right: 170px;
+  }
+
+  .seat-class {
+    font-weight: 400;
+  }
+}
+
+.notice {
+  margin-top: 7px;
+  font-family: PingFangSC, PingFang SC;
+  font-weight: 400;
+  font-size: 12px;
+  color: #232c37;
+  height: 16px;
+}
+
+.passenger-info {
+  display: flex;
+  align-items: center;
+  height: 16px;
+  margin-top: -1px;
+
+  .passenger-name {
+    margin-left: 4px;
+  }
+}
+
+.purchase-info {
+  margin-top: 4px;
+  margin-left: 8px;
+  width: 200px;
+  height: 36px;
+  border-radius: 2px;
+  border: 1px dashed #979797;
+  font-family: PingFangSC, PingFang SC;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 12px;
+  color: #232c37;
+  text-align: center;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+.ticket-code {
+  background: #7ad2de;
+  height: 28px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+
+  font-family: PingFangSC, PingFang SC;
+  font-weight: bold;
+  font-size: 12px;
+  color: #232c37;
+  line-height: 16px;
+  padding: 0 10px;
+  box-sizing: border-box;
+  .sale-info{
+    margin-left: 4px;
+  }
+}
+
+
+.qrcode-area {
+  width: 60px;
+  height: 60px;
+  position: absolute;
+  bottom: 34px;
+  right: 18px;
+  background: #979797;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.qrcode-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.qrcode-placeholder {
+  font-size: 10px;
+  color: #666;
+  text-align: center;
+}

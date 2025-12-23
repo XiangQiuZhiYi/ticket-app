@@ -1,0 +1,50 @@
+// 全局样式变量（深色模式）
+$primary-color: #9b6bff; // 主色（渐变起点）
+$secondary-color: #7d5cff; // 主色（渐变终点）
+$background-color: #0b0b0d; // 页面背景
+$surface-color: #0f0f12; // 卡片/容器背景
+$text-color: #efefef; // 主要文字
+$text-secondary-color: #bfbfbf; // 次要文字
+$muted-color: #9a9a9a;
+$border-color: #222428; // 分割线
+
+// 全局样式重置
+page {
+  background-color: $background-color;
+  font-family: 'PingFang SC', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: $text-color;
+}
+
+// 通用按钮样式（在深色背景下更醒目）
+.button {
+  border-radius: 16rpx;
+  border: none;
+  outline: none;
+  background: linear-gradient(90deg, $primary-color, $secondary-color);
+  color: #fff;
+  padding: 10rpx 20rpx;
+  box-shadow: 0 6rpx 18rpx rgba(155,107,255,0.16);
+  &:active {
+    opacity: 0.92;
+  }
+}
+
+// 通用卡片样式（深色表面）
+.card {
+  background: $surface-color;
+  border-radius: 16rpx;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255,255,255,0.03);
+}
+
+// 链接/强调色
+.link {
+  color: $primary-color;
+}
+
+// 表单元素基准
+input, textarea, select, .picker {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid $border-color;
+  color: $text-color;
+}

@@ -1,0 +1,26 @@
+{
+  "name": "票根生成器",
+  "appid": "wx201040d41c00d1d4",
+  "description": "火车票票根生成器",
+  "versionName": "1.0.0",
+  "versionCode": "100",
+  "transformPx": false,
+  "mp-weixin": {
+    "cloudfunctionRoot": "cloudfunctions",
+    "appid": "wx201040d41c00d1d4",
+    "setting": {
+      "urlCheck": false,
+      "es6": true,
+      "enhance": true,
+      "postcss": true,
+      "minified": true
+    },
+    "usingComponents": true,
+    "permission": {
+      "scope.userLocation": {
+        "desc": "你的位置信息将用于小程序位置接口的效果展示"
+      }
+    }
+  },
+  "vueVersion": "3"
+}
